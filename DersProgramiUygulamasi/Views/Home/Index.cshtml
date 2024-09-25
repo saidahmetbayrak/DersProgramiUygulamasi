@@ -1,0 +1,108 @@
+﻿@model IEnumerable<IGrouping<string, DersProgramiUygulamasi.Models.DersProgrami>>
+
+<div class="container mt-5">
+    <h2>Haftalık Ders Programı</h2>
+
+    <!-- Program Oluştur Butonu -->
+    <a href="@Url.Action("ProgramOlustur", "Home")" class="btn btn-primary mb-3">Program Oluştur</a>
+
+    <!-- Öğretmen ve Ders Ekleme Butonları -->
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#ogretmenModal">Öğretmen Ekle</button>
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#dersModal">Ders Ekle</button>
+
+
+    <!-- Haftalık Program Tablosu -->
+    @foreach (var gunGrubu in Model)
+    {
+        <h3>@gunGrubu.Key</h3> <!-- Gün başlığı: Pazartesi, Salı vb. -->
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Öğretmen</th>
+                    <th>Ders</th>
+                    <th>Ders Saati</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var program in gunGrubu)
+                {
+                    <tr>
+                        <td>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</td>
+                        <td>@program.Ders.Ad</td>
+                        <td>@program.Ders.DersSaati</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <!-- Öğretmen Ekle Modal -->
+    <div class="modal fade" id="ogretmenModal" tabindex="-1" role="dialog" aria-labelledby="ogretmenModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ogretmenModalLabel">Öğretmen Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="OgretmenEkle" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Isim">İsim</label>
+                            <input type="text" class="form-control" id="Isim" name="Isim" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="Soyisim">Soyisim</label>
+                            <input type="text" class="form-control" id="Soyisim" name="Soyisim" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="Brans">Branş</label>
+                            <input type="text" class="form-control" id="Brans" name="Brans" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="ToplamDersSaati">Toplam Ders Saati</label>
+                            <input type="number" class="form-control" id="ToplamDersSaati" name="ToplamDersSaati" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ders Ekle Modal -->
+    <div class="modal fade" id="dersModal" tabindex="-1" role="dialog" aria-labelledby="dersModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dersModalLabel">Ders Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form asp-action="DersEkle" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Ad">Ders Adı</label>
+                            <input type="text" class="form-control" id="Ad" name="Ad" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="DersSaati">Ders Saati</label>
+                            <input type="number" class="form-control" id="DersSaati" name="DersSaati" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

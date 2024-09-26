@@ -1,0 +1,28 @@
+@model IEnumerable<DersProgramiUygulamasi.Models.Ders>
+
+<h2>Dersler Listesi</h2>
+
+<a href="@Url.Action("Create")" class="btn btn-primary mb-3">Ders Ekle</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ders Adı</th>
+            <th>Branş</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ders in Model)
+        {
+            <tr>
+                <td>@ders.Ad</td>
+                <td>@ders.Brans</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = ders.Id })" class="btn btn-warning">Düzenle</a>
+                    <a href="@Url.Action("Delete", new { id = ders.Id })" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

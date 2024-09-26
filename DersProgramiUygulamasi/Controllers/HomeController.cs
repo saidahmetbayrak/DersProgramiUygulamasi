@@ -14,30 +14,15 @@ namespace DersProgramiUygulamasi.Controllers
             _dersProgramiService = dersProgramiService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var program = await _dersProgramiService.GetHaftalikDersProgramiAsync();
-            var gunlereGoreProgram = program.GroupBy(p => p.Gun).OrderBy(g => g.Key).ToList();
-            return View(gunlereGoreProgram);
+            var dersProgrami = _dersProgramiService.GetHaftalikDersProgrami();
+            return View(dersProgrami.GroupBy(dp => dp.Gun));
         }
 
         public IActionResult ProgramOlustur()
         {
             _dersProgramiService.HaftalikProgramOlustur();
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> OgretmenEkle(Ogretmen ogretmen)
-        {
-            await _dersProgramiService.AddOgretmenAsync(ogretmen);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DersEkle(Ders ders)
-        {
-            await _dersProgramiService.AddDersAsync(ders);
             return RedirectToAction("Index");
         }
 

@@ -1,0 +1,29 @@
+@model DersProgramiUygulamasi.Models.Ogretmen
+
+<h2>Yeni Öğretmen Ekle</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Isim">İsim</label>
+        <input type="text" class="form-control" id="Isim" name="Isim" value="@Model.Isim" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Soyisim">Soyisim</label>
+        <input type="text" class="form-control" id="Soyisim" name="Soyisim" value="@Model.Soyisim" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Brans">Branş</label>
+        <input type="text" class="form-control" id="Brans" name="Brans" value="@Model.Brans" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ToplamDersSaati">Toplam Ders Saati</label>
+        <input type="number" class="form-control" id="ToplamDersSaati" name="ToplamDersSaati"
+            value="@Model.ToplamDersSaati" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Kaydet</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary mt-3">Geri Dön</a>
+</form>

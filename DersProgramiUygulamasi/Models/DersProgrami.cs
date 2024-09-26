@@ -8,5 +8,6 @@
         public int DersId { get; set; }
         public Ders Ders { get; set; }
         public string Gun { get; set; }
+        public string DersSaati { get; set; }
     }
 }

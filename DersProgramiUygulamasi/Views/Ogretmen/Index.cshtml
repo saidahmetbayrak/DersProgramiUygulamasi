@@ -1,0 +1,30 @@
+@model IEnumerable<Ogretmen>
+
+<h2>Öğretmenler Listesi</h2>
+
+<a href="@Url.Action("Create")" class="btn btn-primary mb-3">Öğretmen Ekle</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>İsim</th>
+            <th>Soyisim</th>
+            <th>Branş</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ogretmen in Model)
+        {
+            <tr>
+                <td>@ogretmen.Isim</td>
+                <td>@ogretmen.Soyisim</td>
+                <td>@ogretmen.Brans</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = ogretmen.Id })" class="btn btn-warning">Düzenle</a>
+                    <a href="@Url.Action("Delete", new { id = ogretmen.Id })" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

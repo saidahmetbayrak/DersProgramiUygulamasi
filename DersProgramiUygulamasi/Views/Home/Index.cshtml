@@ -3,106 +3,102 @@
 <div class="container mt-5">
     <h2>Haftalık Ders Programı</h2>
 
-    <!-- Program Oluştur Butonu -->
-    <a href="@Url.Action("ProgramOlustur", "Home")" class="btn btn-primary mb-3">Program Oluştur</a>
-
-    <!-- Öğretmen ve Ders Ekleme Butonları -->
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#ogretmenModal">Öğretmen Ekle</button>
-    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#dersModal">Ders Ekle</button>
-
+    <!-- Öğretmenler ve Dersler için Butonlar -->
+    <div class="mb-3">
+    <a href="@Url.Action("ProgramOlustur", "Home")" class="btn btn-success">Program Oluştur</a>
+        <a href="@Url.Action("Index", "Ogretmen")" class="btn btn-info">Öğretmen Listesi</a>
+        <a href="@Url.Action("Index", "Ders")" class="btn btn-warning">Ders Listesi</a>
+    </div>
 
     <!-- Haftalık Program Tablosu -->
-    @foreach (var gunGrubu in Model)
-    {
-        <h3>@gunGrubu.Key</h3> <!-- Gün başlığı: Pazartesi, Salı vb. -->
-
-        <table class="table table-striped">
-            <thead>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Çalışma Saatleri</th>
+                <th>Pazartesi</th>
+                <th>Salı</th>
+                <th>Çarşamba</th>
+                <th>Perşembe</th>
+                <th>Cuma</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var saat in new[] { "08:00 - 08:45", "09:00 - 09:45", "10:00 - 10:45", "11:00 - 11:45", "13:00 - 13:45", "14:00 - 14:45", "15:00 - 15:45" })
+            {
                 <tr>
-                    <th>Öğretmen</th>
-                    <th>Ders</th>
-                    <th>Ders Saati</th>
+                    <td>@saat</td> <!-- Çalışma saatleri sütunu -->
+                    
+                    <!-- Pazartesi -->
+                    <td>
+                        @if (Model.FirstOrDefault(m => m.Key == "Pazartesi")?.Any(p => p.DersSaati == saat) ?? false)
+                        {
+                            var program = Model.FirstOrDefault(m => m.Key == "Pazartesi")?.First(p => p.DersSaati == saat);
+                            <div><strong>@program.Ders.Ad</strong></div>
+                            <div>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</div>
+                        }
+                        else
+                        {
+                            <div>Boş</div>
+                        }
+                    </td>
+                    
+                    <!-- Salı -->
+                    <td>
+                        @if (Model.FirstOrDefault(m => m.Key == "Salı")?.Any(p => p.DersSaati == saat) ?? false)
+                        {
+                            var program = Model.FirstOrDefault(m => m.Key == "Salı")?.First(p => p.DersSaati == saat);
+                            <div><strong>@program.Ders.Ad</strong></div>
+                            <div>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</div>
+                        }
+                        else
+                        {
+                            <div>Boş</div>
+                        }
+                    </td>
+                    
+                    <!-- Çarşamba -->
+                    <td>
+                        @if (Model.FirstOrDefault(m => m.Key == "Çarşamba")?.Any(p => p.DersSaati == saat) ?? false)
+                        {
+                            var program = Model.FirstOrDefault(m => m.Key == "Çarşamba")?.First(p => p.DersSaati == saat);
+                            <div><strong>@program.Ders.Ad</strong></div>
+                            <div>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</div>
+                        }
+                        else
+                        {
+                            <div>Boş</div>
+                        }
+                    </td>
+                    
+                    <!-- Perşembe -->
+                    <td>
+                        @if (Model.FirstOrDefault(m => m.Key == "Perşembe")?.Any(p => p.DersSaati == saat) ?? false)
+                        {
+                            var program = Model.FirstOrDefault(m => m.Key == "Perşembe")?.First(p => p.DersSaati == saat);
+                            <div><strong>@program.Ders.Ad</strong></div>
+                            <div>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</div>
+                        }
+                        else
+                        {
+                            <div>Boş</div>
+                        }
+                    </td>
+                    
+                    <!-- Cuma -->
+                    <td>
+                        @if (Model.FirstOrDefault(m => m.Key == "Cuma")?.Any(p => p.DersSaati == saat) ?? false)
+                        {
+                            var program = Model.FirstOrDefault(m => m.Key == "Cuma")?.First(p => p.DersSaati == saat);
+                            <div><strong>@program.Ders.Ad</strong></div>
+                            <div>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</div>
+                        }
+                        else
+                        {
+                            <div>Boş</div>
+                        }
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var program in gunGrubu)
-                {
-                    <tr>
-                        <td>@program.Ogretmen.Isim @program.Ogretmen.Soyisim</td>
-                        <td>@program.Ders.Ad</td>
-                        <td>@program.Ders.DersSaati</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-
-    <!-- Öğretmen Ekle Modal -->
-    <div class="modal fade" id="ogretmenModal" tabindex="-1" role="dialog" aria-labelledby="ogretmenModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ogretmenModalLabel">Öğretmen Ekle</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form asp-action="OgretmenEkle" method="post">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="Isim">İsim</label>
-                            <input type="text" class="form-control" id="Isim" name="Isim" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="Soyisim">Soyisim</label>
-                            <input type="text" class="form-control" id="Soyisim" name="Soyisim" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="Brans">Branş</label>
-                            <input type="text" class="form-control" id="Brans" name="Brans" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="ToplamDersSaati">Toplam Ders Saati</label>
-                            <input type="number" class="form-control" id="ToplamDersSaati" name="ToplamDersSaati" required />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-                        <button type="submit" class="btn btn-primary">Kaydet</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ders Ekle Modal -->
-    <div class="modal fade" id="dersModal" tabindex="-1" role="dialog" aria-labelledby="dersModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="dersModalLabel">Ders Ekle</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form asp-action="DersEkle" method="post">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="Ad">Ders Adı</label>
-                            <input type="text" class="form-control" id="Ad" name="Ad" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="DersSaati">Ders Saati</label>
-                            <input type="number" class="form-control" id="DersSaati" name="DersSaati" required />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-                        <button type="submit" class="btn btn-primary">Kaydet</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+            }
+        </tbody>
+    </table>
 </div>
-
